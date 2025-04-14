@@ -1,0 +1,43 @@
+1. What is Kubernetes? 
+Kubernetes (often abbreviated as K8s) is an open-source system used to manage and orchestrate containerized applications. It automates the deployment, scaling, and operation of these containers across multiple machines, ensuring your application is running efficiently, even when scaled or updated. It makes it easier to manage large numbers of containers without worrying about their deployment and maintenance.
+
+2. What is the role of kubelet? 
+The kubelet is a small program that runs on each machine (called a "node") in a Kubernetes cluster. Its job is to ensure that the containers running in the Kubernetes Pods are operating as expected. The kubelet constantly checks the Pods and makes sure they are healthy. If a container stops or crashes, the kubelet will try to restart it automatically, maintaining the desired state defined in your configurations.
+
+3. Explain Pods, Deployments, and Services:
+
+Pod: A Pod is the smallest and simplest unit in Kubernetes. It is a group of one or more containers (like Docker containers) that share the same network and storage. All containers in a Pod are co-located on the same node, allowing them to communicate easily. Typically, a Pod represents a single application or microservice.
+
+Deployment: A Deployment in Kubernetes is used to manage a set of identical Pods. It ensures that the specified number of Pods are always running, and if a Pod crashes, it automatically replaces it. Deployments also make it easy to update your application by gradually replacing old Pods with new ones without downtime.
+
+Service: A Service in Kubernetes provides a stable, reliable way to expose and access Pods over the network. It can be used to expose Pods inside the Kubernetes cluster (for internal communication between Pods) or outside the cluster (for users accessing the application). Services abstract away the details of individual Pods and provide load balancing if there are multiple Pods.
+
+4. How do you scale in Kubernetes? Scaling in Kubernetes means adjusting the number of Pods running for a given application to handle changes in demand. You can scale the number of Pods up or down using a command like:
+
+kubectl scale deployment <name> --replicas=<number>
+For example, to scale your application’s Pods to 5 replicas (5 instances), you would run the following command:
+
+kubectl scale deployment my-app --replicas=5
+Kubernetes will automatically ensure that 5 copies of your application are running.
+
+5. What is a Namespace? 
+A Namespace in Kubernetes is like a virtual cluster within a physical cluster. It is a way to organize and separate resources within the same Kubernetes cluster. For instance, you might have different namespaces for different environments (e.g., development, testing, and production). Namespaces help to isolate resources and avoid naming conflicts.
+
+6. ClusterIP vs NodePort vs LoadBalancer:
+
+ClusterIP: This is the default type of service in Kubernetes. It makes the service accessible only inside the Kubernetes cluster. Other Pods within the cluster can access it using the service name and port, but external traffic cannot reach it.
+
+NodePort: A NodePort service exposes the service on a port on every node in the Kubernetes cluster. This allows external traffic to access the service by connecting to any node’s IP and port. It’s a way to expose a service to the outside world without setting up a load balancer.
+
+LoadBalancer: A LoadBalancer service exposes the service externally using a cloud provider's load balancer (like AWS, Google Cloud, etc.). This automatically creates an external IP address and load balancer that distributes incoming traffic to the available Pods. It’s the most convenient option for exposing a service publicly in cloud environments.
+
+7. What are ConfigMaps?
+ConfigMaps in Kubernetes are used to store non-sensitive configuration data in the form of key-value pairs. These can be used to pass configuration settings (such as environment variables or application settings) into the Pods. For example, if your application needs to read a database connection string, you can store it in a ConfigMap and refer to it in the Pod configuration.
+
+8. How do you perform rolling updates? 
+A rolling update is a way to update your application without causing downtime. Kubernetes performs rolling updates automatically when you update the Deployment configuration. It gradually replaces the old Pods with new ones. You can manually trigger a rolling update by applying a new configuration to your Deployment:
+
+kubectl apply -f deployment.yaml
+You can also check the status of the update using:
+
+kubectl rollout status deployment <name>
